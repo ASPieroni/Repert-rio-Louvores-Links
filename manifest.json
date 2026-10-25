@@ -1,1 +1,17 @@
-
+{
+  "name": "Repertório de Louvores - Extrator Word & WhatsApp",
+  "short_name": "Repertório",
+  "description": "Gerenciador de Músicas & Ensaio com extração de DOCX e compartilhamento.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0d14",
+  "theme_color": "#6366f1",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
