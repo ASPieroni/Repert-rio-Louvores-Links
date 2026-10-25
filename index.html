@@ -50,8 +50,10 @@
 </head>
 <body class="bg-slate-50 dark:bg-brand-bgDark text-slate-800 dark:text-slate-100 min-h-screen flex flex-col font-sans antialiased transition-colors duration-200">
 
+    <!-- Header & Navigation -->
     <header class="border-b border-slate-200 dark:border-brand-borderDark bg-white/90 dark:bg-brand-bgDark/90 backdrop-blur-md sticky top-0 z-30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+            
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-400 flex items-center justify-center text-white shadow-lg shadow-brand-600/25 shrink-0">
                     <i class="fa-solid fa-music text-lg"></i>
@@ -59,7 +61,7 @@
                 <div>
                     <h1 class="font-bold text-base sm:text-lg leading-tight text-slate-900 dark:text-white flex items-center gap-2">
                         Repertório de Louvores
-                        <span class="hidden sm:inline-block text-[10px] bg-brand-500/10 text-brand-600 dark:text-indigo-300 border border-brand-500/20 px-2 py-0.5 rounded-full font-semibold uppercase tracking-wider">PWA READY</span>
+                        <span class="hidden sm:inline-block text-[10px] bg-brand-500/10 text-brand-600 dark:text-indigo-300 border border-brand-500/20 px-2 py-0.5 rounded-full font-semibold uppercase tracking-wider">DOCX & YT</span>
                     </h1>
                     <p class="text-xs text-slate-500 dark:text-slate-400">Gerenciador de Músicas & Ensaio</p>
                 </div>
@@ -95,17 +97,20 @@
         </div>
     </header>
 
+    <!-- Main Content Container -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
         <div id="storageAlert" class="bg-indigo-500/10 border border-indigo-500/20 rounded-2xl p-3.5 flex items-center justify-between text-xs text-indigo-700 dark:text-indigo-300 gap-3">
             <div class="flex items-center gap-2.5">
                 <i class="fa-solid fa-floppy-disk text-indigo-500 text-sm shrink-0"></i>
-                <span><strong>Salvamento Automático Ativo:</strong> Suas alterações permanecem salvas localmente.</span>
+                <span><strong>Salvamento Automático Ativo:</strong> Suas alterações de Tom, BPM, notas e links permanecem salvas no navegador.</span>
             </div>
             <button onclick="document.getElementById('storageAlert').style.display='none'" class="text-slate-400 hover:text-slate-600 dark:hover:text-white transition">
                 <i class="fa-solid fa-xmark text-sm"></i>
             </button>
         </div>
 
+        <!-- Word Upload Drag & Drop Zone -->
         <section id="dropZone" class="border-2 border-dashed border-slate-300 dark:border-brand-borderDark hover:border-brand-500 dark:hover:border-brand-500/80 bg-white dark:bg-brand-cardDark/50 hover:bg-slate-50 dark:hover:bg-brand-cardDark rounded-2xl p-8 text-center cursor-pointer transition-all duration-200 group relative overflow-hidden shadow-sm">
             <input type="file" id="fileInput" accept=".docx" class="hidden" />
             <input type="file" id="jsonInput" accept=".json" class="hidden" />
@@ -119,25 +124,30 @@
                         Arraste e solte o documento Word <span class="text-brand-600 dark:text-indigo-400">(.docx)</span>
                     </p>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                        Extraia louvores com links do YouTube
+                        Extraia todos os louvores vinculados a links do YouTube com o texto original do documento
                     </p>
                 </div>
             </div>
 
+            <!-- Loader Overlay -->
             <div id="loader" class="hidden absolute inset-0 bg-white/95 dark:bg-brand-bgDark/95 backdrop-blur-sm flex flex-col items-center justify-center gap-3 z-20">
                 <div class="w-10 h-10 border-4 border-indigo-500/20 border-t-indigo-600 rounded-full animate-spin"></div>
-                <p class="text-xs font-semibold text-slate-700 dark:text-slate-200" id="loaderText">Sincronizando...</p>
+                <p class="text-xs font-semibold text-slate-700 dark:text-slate-200" id="loaderText">Sincronizando títulos de louvores...</p>
             </div>
         </section>
 
+        <!-- Repertoire Section -->
         <section id="repertoireSection" class="hidden space-y-4">
+
             <div class="bg-white dark:bg-brand-cardDark p-4 border border-slate-200 dark:border-brand-borderDark rounded-2xl shadow-sm space-y-3">
+                
                 <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
                     <div class="sm:col-span-5 relative">
                         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-                        <input type="text" id="searchInput" placeholder="Buscar por louvor, tom, BPM..." 
+                        <input type="text" id="searchInput" placeholder="Buscar por louvor, tom, BPM ou notas..." 
                             class="w-full pl-9 pr-3 py-2 bg-slate-50 dark:bg-brand-bgDark border border-slate-200 dark:border-brand-borderDark rounded-xl text-xs text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-brand-500 transition">
                     </div>
+
                     <div class="sm:col-span-3">
                         <select id="keyFilter" class="w-full bg-slate-50 dark:bg-brand-bgDark border border-slate-200 dark:border-brand-borderDark rounded-xl px-3 py-2 text-xs text-slate-700 dark:text-slate-300 focus:outline-none focus:border-brand-500 transition">
                             <option value="ALL">Todos os Tons</option>
@@ -151,17 +161,19 @@
                             <option value="NOT_SET">Sem Tom Definido</option>
                         </select>
                     </div>
+
                     <div class="sm:col-span-4 flex items-center justify-end gap-2">
                         <button id="addSongBtn" class="flex-1 sm:flex-none px-3.5 py-2 bg-slate-100 dark:bg-brand-hoverDark hover:bg-slate-200 dark:hover:bg-brand-borderDark text-slate-700 dark:text-indigo-300 border border-slate-200 dark:border-brand-borderDark rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5">
                             <i class="fa-solid fa-plus text-xs"></i> Adicionar
                         </button>
-                        <button id="syncAllOembedBtn" class="px-3.5 py-2 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-300 border border-indigo-500/20 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5" title="Sincronizar títulos">
-                            <i class="fa-solid fa-rotate"></i> Sincronizar
+                        <button id="syncAllOembedBtn" class="px-3.5 py-2 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-300 border border-indigo-500/20 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5" title="Sincronizar títulos oficiais com YouTube API">
+                            <i class="fa-solid fa-rotate"></i> Sincronizar YT
                         </button>
                     </div>
                 </div>
 
                 <div class="pt-3 border-t border-slate-100 dark:border-brand-borderDark/60 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+                    
                     <div class="flex items-center gap-2">
                         <button id="selectAllBtn" class="px-3 py-1.5 bg-slate-100 dark:bg-brand-bgDark hover:bg-slate-200 dark:hover:bg-brand-hoverDark text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-brand-borderDark rounded-lg text-xs font-medium transition flex items-center gap-1.5">
                             <i class="fa-regular fa-square-check text-indigo-500"></i> Selecionar Todos
@@ -174,31 +186,81 @@
 
                     <div class="flex items-center gap-2">
                         <button id="openWhatsappModalBtn" class="flex-1 sm:flex-none px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20">
-                            <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+                            <i class="fa-brands fa-whatsapp text-sm"></i> Enviar WhatsApp
                         </button>
+
+                        <div class="relative inline-block text-left group">
+                            <button class="px-3.5 py-1.5 bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold rounded-xl transition flex items-center gap-1.5 shadow-md shadow-brand-600/20">
+                                <i class="fa-solid fa-download text-xs"></i> Exportar
+                            </button>
+                            <div class="absolute right-0 mt-1 w-44 bg-white dark:bg-brand-cardDark border border-slate-200 dark:border-brand-borderDark rounded-xl shadow-xl hidden group-hover:block z-30 overflow-hidden">
+                                <button id="copyFormattedBtn" class="w-full text-left px-3.5 py-2 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-brand-hoverDark transition flex items-center gap-2 border-b border-slate-100 dark:border-brand-borderDark">
+                                    <i class="fa-regular fa-copy text-indigo-500"></i> Copiar Texto
+                                </button>
+                                <button id="exportCsvBtn" class="w-full text-left px-3.5 py-2 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-brand-hoverDark transition flex items-center gap-2 border-b border-slate-100 dark:border-brand-borderDark">
+                                    <i class="fa-solid fa-file-csv text-emerald-500"></i> Tabela CSV
+                                </button>
+                                <button id="exportTxtBtn" class="w-full text-left px-3.5 py-2 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-brand-hoverDark transition flex items-center gap-2">
+                                    <i class="fa-solid fa-file-lines text-blue-500"></i> Arquivo TXT
+                                </button>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
+
             </div>
 
             <div id="louvoresList" class="space-y-3"></div>
+
             <div id="emptyState" class="hidden p-12 text-center bg-white dark:bg-brand-cardDark border border-slate-200 dark:border-brand-borderDark rounded-2xl shadow-sm">
                 <i class="fa-solid fa-compact-disc text-4xl text-slate-300 dark:text-slate-600 mb-3 animate-spin" style="animation-duration: 10s;"></i>
-                <p class="text-slate-700 dark:text-slate-200 font-semibold text-sm">Nenhum louvor encontrado.</p>
+                <p class="text-slate-700 dark:text-slate-200 font-semibold text-sm">Nenhum louvor encontrado para os filtros selecionados.</p>
+                <p class="text-slate-400 text-xs mt-1">Ajuste o termo de busca ou selecione "Todos os Tons".</p>
             </div>
+
         </section>
+
     </main>
 
-    <!-- Script de Registro do Service Worker -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('sw.js').then(function(registration) {
-                    console.log('ServiceWorker registrado com sucesso no escopo: ', registration.scope);
-                }, function(err) {
-                    console.log('Falha no registro do ServiceWorker: ', err);
-                });
-            });
-        }
-    </script>
-</body>
-</html>
+    <!-- Modal WhatsApp Integrado -->
+    <div id="whatsappModal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-brand-cardDark border border-slate-200 dark:border-brand-borderDark w-full max-w-xl rounded-2xl overflow-hidden shadow-2xl flex flex-col">
+            
+            <div class="p-4 border-b border-slate-200 dark:border-brand-borderDark flex items-center justify-between bg-emerald-50 dark:bg-emerald-950/30">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-brands fa-whatsapp text-emerald-600 dark:text-emerald-400 text-xl"></i>
+                    <h3 class="font-bold text-slate-900 dark:text-white text-sm">Compartilhar Louvores via WhatsApp</h3>
+                </div>
+                <button id="closeWhatsappModalBtn" class="text-slate-400 hover:text-slate-600 dark:hover:text-white w-8 h-8 rounded-lg bg-slate-100 dark:bg-brand-hoverDark flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="p-5 space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                        Número de Destino (Opcional)
+                    </label>
+                    <div class="relative">
+                        <input type="text" id="waPhoneInput" placeholder="Ex: 5521999998888 (com DDD)" 
+                            class="w-full bg-slate-50 dark:bg-brand-bgDark border border-slate-200 dark:border-brand-borderDark rounded-xl pl-9 pr-3 py-2 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-500">
+                        <i class="fa-solid fa-phone absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                    </div>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Deixe em branco para escolher o contato ou grupo diretamente no aplicativo do WhatsApp.</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Pré-visualização da Mensagem</label>
+                    <textarea id="waPreviewText" rows="7" readonly 
+                        class="w-full bg-slate-50 dark:bg-brand-bgDark border border-slate-200 dark:border-brand-borderDark rounded-xl p-3 text-xs font-mono text-emerald-700 dark:text-emerald-300 resize-none focus:outline-none"></textarea>
+                </div>
+
+                <div class="bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-xl flex items-center justify-between text-xs text-emerald-700 dark:text-emerald-300">
+                    <span id="waSelectedCountText"><i class="fa-solid fa-check-double mr-1"></i> 0 louvores selecionados</span>
+                    <span class="text-[10px] text-slate-500 dark:text-slate-400">Mensagem auto-formatada</span>
+                </div>
+            </div>
+
+            <div class="p-4 border-t border-slate-200 dark:border-brand-borderDark bg-slate-50 dark:bg-brand-bgDark/50 flex items-center justify-end gap-2">
+                <button type="button" id="copyWaMsgBtn" class="px-4 py-2 bg-slate-200 dark:bg-brand-hoverDark hover:bg-slate-300 dark:hover:bg-brand-borderDark text-slate-700 dark:text-slate-200 text-
