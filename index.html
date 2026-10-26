@@ -604,9 +604,22 @@
                 }
 
                 const newLouvores = [];
+                const importedLinkKeys = new Set();
                 let count = 1;
 
+                // Evita importar o mesmo vídeo mais de uma vez, mesmo que o Word
+                // contenha várias relações/links diferentes para a mesma URL.
                 relsMap.forEach((data, rId) => {
+                    const parsed = data.ytInfo || parseYouTubeUrl(data.target);
+                    const normalizedUrl = String(data.target || '').trim()
+                        .replace(/&amp;/gi, '&')
+                        .replace(/[?#].*$/, '');
+                    const linkKey = parsed && parsed.videoId
+                        ? 'youtube:' + parsed.videoId
+                        : normalizedUrl.toLowerCase();
+                    if (!linkKey || importedLinkKeys.has(linkKey)) return;
+                    importedLinkKeys.add(linkKey);
+
                     let anchorText = anchorMap.get(rId) || '';
                     anchorText = anchorText.trim();
 
@@ -631,7 +644,7 @@
                 saveToLocalStorage();
                 renderRepertoire();
 
-                showToast(`${louvoresList.length} louvores importados!`);
+                showToast(`${newLouvores.length} louvores importados, sem links duplicados!`);
                 syncMissingTitlesWithOembed();
 
             } catch (err) {
@@ -804,7 +817,7 @@
                 if (item.notes) text += `📝 _Obs: ${item.notes.trim()}_\n`;
                 text += `🔗 ${item.url}\n\n`;
             });
-            text += `🙌 *Abençoado ensaio!*`;
+            text += `Deus abençoe a todos!🙏`;
             return text;
         }
 
